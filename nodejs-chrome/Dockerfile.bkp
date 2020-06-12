@@ -1,0 +1,9 @@
+FROM selenium/node-chrome
+
+USER root
+RUN apt-get update -qqy \
+  && apt-get upgrade -y \
+  && apt-get install curl build-essential software-properties-common zip -y \
+  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+  && apt-get install --assume-yes --no-install-recommends nodejs \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

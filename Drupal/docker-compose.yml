@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  webserver:
+    image: "drupal:8.6.5-apache"
+    restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - drup-net
+    environment:
+      Database type: PostgreSQL
+      Database host: pgsqldb
+      Database username: root
+      Database password: root@123
+      Database name: drupal-db
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profiles:/var/www/html/profiles
+      - drupal_themes:/var/www/html/themes
+      - drupal_sites:/var/www/html/sites
+
+  pgsqldb:
+    image: "postgres:11.2"
+    restart: always
+    environment:
+      POSTGRES_DB: drupal-db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root@123
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    networks:
+      - drup-net
+volumes:
+    drupal_modules:
+    drupal_profiles:
+    drupal_themes:
+    drupal_sites:
+    db-data:
+
+networks:
+    drup-net:
